@@ -112,8 +112,5 @@ This interaction pattern creates a distributed system where Kafka Brokers coordi
 - Update host and port numbers in the source code as needed.
 - Customize the system behavior by modifying the logic in each component.
 
-## Contributing
-
-If you would like to contribute to YaK, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
