@@ -3,7 +3,7 @@
 ## Overview
 This repository contains the implementation of a distributed system based on Apache Kafka for managing topics, coordinating producers and consumers, and ensuring fault-tolerance and recovery. The system consists of three main components:
 
-#Mini-Zookeeper (server.py)
+## Mini-Zookeeper (server.py)
 
 Monitors the health of Kafka Brokers and facilitates leader election.
 Listens for incoming connections from Kafka Brokers and Producers/Consumers.
@@ -11,7 +11,7 @@ Registers Kafka Brokers when they connect (register_broker message type).
 Handles heartbeats from Kafka Brokers to monitor their health (heartbeat message type).
 Initiates leader election if a broker is presumed dead.
 
-#Kafka Brokers (broker.py)
+## Kafka Brokers (broker.py)
 
 Manages topics, coordinates producers and consumers, implements Fault-Tolerance, Recovery, Leader Election, and Partitioning.
 Registers with the Mini-Zookeeper during startup (register_broker message type).
@@ -22,14 +22,14 @@ Coordinates with other Kafka Brokers to handle publish (publish message type) an
 Manages topics, partitions, and messages.
 Handles recovery of messages and partitions after a failure.
 
-#Kafka Producer (producer.py)
+## Kafka Producer (producer.py)
 
 Publishes messages to Kafka Topics.
 Registers with the Mini-Zookeeper during startup (register_producer message type).
 Sends messages to Kafka Brokers (publish message type).
 May request the creation of a new topic if it does not exist.
 
-#Kafka Consumer (consumer.py)
+## Kafka Consumer (consumer.py)
 
 Consumes messages from Kafka Topics.
 Registers with the Mini-Zookeeper during startup (register_consumer message type).
@@ -37,27 +37,27 @@ Requests messages from Kafka Brokers (consume message type).
 May request the creation of a new topic if it does not exist.
 Supports receiving all messages from the beginning of a topic (--from-beginning flag).
 
-##Overall Working
-#Startup:
+# Overall Working
+## Startup:
 Mini-Zookeeper starts listening for connections.
 Kafka Brokers and Producers/Consumers connect to the Mini-Zookeeper.
 3Broker Registration:
 Kafka Brokers register with the Mini-Zookeeper during startup.
 Mini-Zookeeper sends the current leader information to the new broker.
-#Heartbeats:
+## Heartbeats:
 Kafka Brokers periodically send heartbeats to the Mini-Zookeeper.
 If the Mini-Zookeeper detects a lack of heartbeat from the leader, it triggers leader election.
-#Leader Election:
+## Leader Election:
 If a broker is presumed dead, the Mini-Zookeeper initiates leader election.
 New leader information is broadcasted to all brokers.
-#Publish Operation:
+## Publish Operation:
 Kafka Producers send messages to Kafka Brokers.
 Kafka Brokers, including the leader, handle the publish operation.
 Messages are stored in topics and partitions.
-#Consume Operation:
+## Consume Operation:
 Kafka Consumers request messages from Kafka Brokers.
 Kafka Brokers handle the consume operation, providing the requested messages.
-#Fault-Tolerance and Recovery:
+## Fault-Tolerance and Recovery:
 Brokers handle failures by recovering messages and partitions after a failure.
 Leader election is triggered in the absence of heartbeats from the current leader.
 This interaction pattern creates a distributed system where Kafka Brokers coordinate with each other and with the Mini-Zookeeper to ensure the reliability and fault-tolerance of the overall system. The system is designed to handle failures, recover messages, and elect leaders dynamically.
